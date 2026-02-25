@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Video Transcript Tool</title>
+  <meta name="description" content="Free online video transcript tool that extracts speech from videos. Convert video to text with one click.">
+  <meta name="keywords" content="video transcript, online recognition, video to text, video subtitle extraction, online video recognition, video text recognition, subtitle extractor, video transcription, video copywriting, transcript extraction, free">
+  <meta name="author" content="Video Transcript Tool">
+  <meta name="robots" content="index, follow">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background: #f5f5f5;
+      min-height: 100vh;
+      padding: 40px 20px;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .header {
+      margin-bottom: 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .header h1 {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: #1a1a1a;
+    }
+
+    .lang-switch {
+      color: #666;
+      text-decoration: none;
+      font-size: 14px;
+      transition: color 0.2s;
+    }
+
+    .lang-switch:hover {
+      color: #2563eb;
+    }
+
+    .card {
+      background: white;
+      border-radius: 12px;
+      border: 1px solid #e5e5e5;
+      padding: 24px;
+    }
+
+    .input-group {
+      margin-bottom: 16px;
+    }
+
+    .input-group label {
+      display: block;
+      font-weight: 500;
+      margin-bottom: 8px;
+      color: #333;
+      font-size: 14px;
+    }
+
+    .input-group input[type="file"] {
+      font-size: 14px;
+    }
+
+    .btn {
+      width: 100%;
+      padding: 12px 16px;
+      border: none;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-primary {
+      background: #2563eb;
+      color: white;
+    }
+
+    .btn-primary:hover:not(:disabled) {
+      background: #1d4ed8;
+    }
+
+    .btn-primary:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .progress {
+      display: none;
+      margin-top: 16px;
+    }
+
+    .progress.active {
+      display: block;
+    }
+
+    .progress-bar {
+      height: 4px;
+      background: #e5e7eb;
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: #2563eb;
+      width: 0%;
+      transition: width 0.3s;
+    }
+
+    .progress-text {
+      text-align: center;
+      margin-top: 8px;
+      color: #666;
+      font-size: 13px;
+    }
+
+    .result {
+      display: none;
+      margin-top: 24px;
+    }
+
+    .result.active {
+      display: block;
+    }
+
+    .result-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .result-header h3 {
+      color: #1a1a1a;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .result-meta {
+      margin-bottom: 12px;
+      padding: 10px 12px;
+      background: #f9fafb;
+      border-radius: 6px;
+      font-size: 13px;
+      color: #666;
+    }
+
+    .transcript-box {
+      width: 100%;
+      min-height: 280px;
+      padding: 14px;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      font-size: 15px;
+      line-height: 1.7;
+      color: #333;
+      background: #fafafa;
+      resize: vertical;
+      font-family: inherit;
+    }
+
+    .transcript-box:focus {
+      outline: none;
+      border-color: #2563eb;
+    }
+
+    .error {
+      display: none;
+      padding: 12px 14px;
+      background: #fef2f2;
+      border: 1px solid #fecaca;
+      border-radius: 8px;
+      color: #dc2626;
+      margin-top: 16px;
+      font-size: 14px;
+    }
+
+    .error.active {
+      display: block;
+    }
+
+    .copy-btn {
+      padding: 6px 12px;
+      background: #f3f4f6;
+      color: #374151;
+      border: 1px solid #d1d5db;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 13px;
+      transition: all 0.2s;
+    }
+
+    .copy-btn:hover {
+      background: #e5e7eb;
+    }
+
+    .copy-btn.copied {
+      background: #dcfce7;
+      border-color: #86efac;
+      color: #16a34a;
+    }
+
+    .loading-spinner {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      border: 2px solid rgba(255,255,255,0.3);
+      border-radius: 50%;
+      border-top-color: white;
+      animation: spin 0.8s linear infinite;
+      margin-right: 8px;
+      vertical-align: middle;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .mode-selector {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .mode-option {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      padding: 8px 14px;
+      border: 1px solid #d1d5db;
+      border-radius: 6px;
+      font-size: 14px;
+      color: #666;
+      transition: all 0.2s;
+    }
+
+    .mode-option:hover {
+      border-color: #9ca3af;
+    }
+
+    .mode-option input[type="radio"] {
+      display: none;
+    }
+
+    .mode-option.active {
+      background: #eff6ff;
+      border-color: #2563eb;
+      color: #2563eb;
+    }
+
+    .language-select {
+      display: none;
+      margin-bottom: 16px;
+    }
+
+    .language-select.active {
+      display: block;
+    }
+
+    .language-select label {
+      display: block;
+      font-weight: 500;
+      margin-bottom: 8px;
+      color: #333;
+      font-size: 14px;
+    }
+
+    .language-select select {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      font-size: 15px;
+      background: white;
+      cursor: pointer;
+    }
+
+    .language-select select:focus {
+      outline: none;
+      border-color: #2563eb;
+    }
+
+    .hint {
+      font-size: 12px;
+      color: #9ca3af;
+      margin-top: 6px;
+    }
+
+    @media (max-width: 600px) {
+      body {
+        padding: 20px 16px;
+      }
+      
+      .header h1 {
+        font-size: 1.25rem;
+      }
+      
+      .card {
+        padding: 16px;
+      }
+
+      .mode-selector {
+        flex-wrap: wrap;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>Video Transcript Tool</h1>
+      <a href="index.html" class="lang-switch" onclick="localStorage.setItem('preferred-lang', 'zh')">中文</a>
+    </div>
+
+    <div class="card">
+      <div class="mode-selector">
+        <label class="mode-option active" id="modeExtract">
+          <input type="radio" name="mode" value="extract" checked onchange="switchMode('extract')">
+          <span>Extract</span>
+        </label>
+        <label class="mode-option" id="modeTranslate">
+          <input type="radio" name="mode" value="translate" onchange="switchMode('translate')">
+          <span>Translate</span>
+        </label>
+      </div>
+
+      <div class="language-select" id="languageSelect">
+        <label for="targetLanguage">Target Language</label>
+        <select id="targetLanguage">
+          <option value="en">English</option>
+          <option value="zh" selected>中文</option>
+          <option value="ja">日本語</option>
+          <option value="ko">한국어</option>
+          <option value="fr">Français</option>
+          <option value="de">Deutsch</option>
+          <option value="es">Español</option>
+          <option value="ru">Русский</option>
+          <option value="pt">Português</option>
+          <option value="it">Italiano</option>
+        </select>
+      </div>
+
+      <div class="input-group">
+        <label for="videoFile">Select Video File</label>
+        <input 
+          type="file" 
+          id="videoFile" 
+          accept="video/*"
+          style="padding: 10px;"
+        >
+        <p class="hint">Supports MP4, WebM, etc. Max 20MB</p>
+      </div>
+
+      <button class="btn btn-primary" id="extractBtn" onclick="extractTranscript()">
+        Start Extraction
+      </button>
+
+      <div class="progress" id="progress">
+        <div class="progress-bar">
+          <div class="progress-fill" id="progressFill"></div>
+        </div>
+        <p class="progress-text" id="progressText">Processing...</p>
+      </div>
+
+      <div class="error" id="error"></div>
+
+      <div class="result" id="result">
+        <div class="result-header">
+          <h3>Result</h3>
+          <button class="copy-btn" onclick="copyTranscript()">Copy</button>
+        </div>
+        
+        <div class="result-meta" id="resultMeta"></div>
+
+        <textarea class="transcript-box" id="transcriptBox" readonly placeholder="Result will appear here..."></textarea>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const DEFAULT_API = 'https://video-transcript-api.tangyingkai120.workers.dev/api/transcribe';
+    const TRANSLATE_API = 'https://video-transcript-api.tangyingkai120.workers.dev/api/translate';
+    const MAX_FILE_SIZE = 20 * 1024 * 1024;
+    
+    let currentResult = null;
+    let currentMode = 'extract';
+
+    function switchMode(mode) {
+      currentMode = mode;
+      
+      document.querySelectorAll('.mode-option').forEach(function(el) {
+        el.classList.remove('active');
+      });
+      document.getElementById('mode' + mode.charAt(0).toUpperCase() + mode.slice(1)).classList.add('active');
+      
+      document.getElementById('languageSelect').classList.toggle('active', mode === 'translate');
+      
+      var btn = document.getElementById('extractBtn');
+      if (mode === 'translate') {
+        btn.textContent = 'Extract & Translate';
+      } else {
+        btn.textContent = 'Start Extraction';
+      }
+    }
+
+    function showError(message) {
+      var errorEl = document.getElementById('error');
+      errorEl.textContent = message;
+      errorEl.classList.add('active');
+    }
+
+    function hideError() {
+      document.getElementById('error').classList.remove('active');
+    }
+
+    function showProgress(show) {
+      document.getElementById('progress').classList.toggle('active', show);
+    }
+
+    function updateProgress(percent, text) {
+      document.getElementById('progressFill').style.width = percent + '%';
+      document.getElementById('progressText').textContent = text;
+    }
+
+    function showResult(show) {
+      document.getElementById('result').classList.toggle('active', show);
+    }
+
+    function formatTime(seconds) {
+      var mins = Math.floor(seconds / 60);
+      var secs = seconds % 60;
+      return mins.toString().padStart(2, '0') + ':' + secs.toString().padStart(2, '0');
+    }
+
+    function renderResult(data) {
+      currentResult = data;
+      
+      var metadata = data.metadata || {
+        totalSegments: data.segments ? data.segments.length : 0,
+        totalDuration: data.segments ? data.segments.reduce(function(sum, s) { return sum + (s.duration || 0); }, 0) : 0,
+        processedAt: new Date().toISOString()
+      };
+      
+      var metaParts = [];
+      metaParts.push(metadata.totalSegments + ' segments');
+      metaParts.push('Duration ' + formatTime(metadata.totalDuration));
+      
+      if (data.translated) {
+        var langNames = {
+          'zh': 'Chinese', 'en': 'English', 'ja': 'Japanese', 'ko': 'Korean',
+          'fr': 'French', 'de': 'German', 'es': 'Spanish', 'ru': 'Russian',
+          'pt': 'Portuguese', 'it': 'Italian'
+        };
+        metaParts.push('Translated to ' + (langNames[data.targetLanguage] || data.targetLanguage));
+      }
+      
+      document.getElementById('resultMeta').textContent = metaParts.join(' · ');
+      
+      var transcriptBox = document.getElementById('transcriptBox');
+      var transcript = data.fullTranscript || '';
+      
+      if (!transcript && data.segments && data.segments.length > 0) {
+        transcript = data.segments.map(function(s) { return s.content || ''; }).join('\n\n');
+      }
+      
+      transcriptBox.value = transcript;
+      
+      if (!transcript || transcript.trim() === '') {
+        transcriptBox.value = 'Could not recognize text from the video.\n\nPossible reasons:\n1. No speech in the video\n2. Unsupported video format\n3. Corrupted video file';
+      }
+    }
+
+    function copyTranscript() {
+      var transcriptBox = document.getElementById('transcriptBox');
+      var text = transcriptBox.value;
+      
+      if (!text) {
+        return;
+      }
+      
+      navigator.clipboard.writeText(text).then(function() {
+        var btn = document.querySelector('.copy-btn');
+        btn.textContent = 'Copied';
+        btn.classList.add('copied');
+        
+        setTimeout(function() {
+          btn.textContent = 'Copy';
+          btn.classList.remove('copied');
+        }, 2000);
+      }).catch(function() {
+        transcriptBox.select();
+        document.execCommand('copy');
+        var btn = document.querySelector('.copy-btn');
+        btn.textContent = 'Copied';
+        btn.classList.add('copied');
+        
+        setTimeout(function() {
+          btn.textContent = 'Copy';
+          btn.classList.remove('copied');
+        }, 2000);
+      });
+    }
+
+    async function extractTranscript() {
+      await extractFromFile();
+    }
+
+    async function extractFromFile() {
+      var fileInput = document.getElementById('videoFile');
+      var file = fileInput.files[0];
+      
+      if (!file) {
+        showError('Please select a video file');
+        return;
+      }
+
+      if (file.size > MAX_FILE_SIZE) {
+        showError('File size exceeds 20MB limit');
+        return;
+      }
+
+      hideError();
+      showResult(false);
+      showProgress(true);
+      updateProgress(10, 'Reading file...');
+
+      var btn = document.getElementById('extractBtn');
+      btn.disabled = true;
+      btn.innerHTML = '<span class="loading-spinner"></span>Processing';
+
+      try {
+        var videoData = await readFileAsBase64(file);
+        
+        updateProgress(30, 'Uploading...');
+        
+        var response = await fetch(DEFAULT_API, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ 
+            videoData: videoData,
+            mimeType: file.type || 'video/mp4'
+          }),
+        });
+
+        if (!response.ok) {
+          var errorData = await response.json().catch(function() { return {}; });
+          throw new Error(errorData.error || 'Server error: ' + response.status);
+        }
+
+        updateProgress(60, 'Analyzing video...');
+        
+        var data = await response.json();
+
+        if (!data.success) {
+          throw new Error(data.error || 'Processing failed');
+        }
+
+        if (currentMode === 'translate') {
+          updateProgress(70, 'Translating...');
+          var targetLang = document.getElementById('targetLanguage').value;
+          var transcript = data.fullTranscript || '';
+          
+          if (transcript) {
+            try {
+              var translateResponse = await fetch(TRANSLATE_API, {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                  text: transcript,
+                  targetLanguage: targetLang
+                }),
+              });
+
+              if (translateResponse.ok) {
+                var translateData = await translateResponse.json();
+                if (translateData.success) {
+                  data.fullTranscript = translateData.translatedText;
+                  data.translated = true;
+                  data.targetLanguage = targetLang;
+                }
+              }
+            } catch (translateError) {
+              console.error('Translation error:', translateError);
+            }
+          }
+        }
+
+        updateProgress(100, 'Done');
+        
+        setTimeout(function() {
+          showProgress(false);
+          showResult(true);
+          renderResult(data);
+        }, 300);
+
+      } catch (error) {
+        showProgress(false);
+        showError(error.message || 'Processing failed, please try again');
+        console.error('Error:', error);
+      } finally {
+        btn.disabled = false;
+        btn.textContent = currentMode === 'translate' ? 'Extract & Translate' : 'Start Extraction';
+      }
+    }
+
+    function readFileAsBase64(file) {
+      return new Promise(function(resolve, reject) {
+        var reader = new FileReader();
+        reader.onload = function() {
+          var base64 = reader.result.split(',')[1];
+          resolve(base64);
+        };
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
+    }
+  </script>
+</body>
+</html>
