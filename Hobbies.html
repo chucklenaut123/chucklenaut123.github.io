@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Hobbies</title>
+    
+    <style>
+        /* =========================================
+           CSS STYLES (Consistent with Homepage)
+           ========================================= */
+        :root {
+            --bg-color: #f9fafb;
+            --surface-color: #ffffff;
+            --primary-color: #2563eb;
+            --text-main: #111827;
+            --text-secondary: #4b5563; /* Slightly darker for body text readability */
+            --accent-gradient: linear-gradient(135deg, #2563eb 0%, #4f46e5 100%);
+            --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --border-radius: 16px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.7;
+            padding-bottom: 3rem;
+        }
+
+        /* Navigation Bar (Top) */
+        .navbar {
+            background-color: var(--surface-color);
+            padding: 1rem 0;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-container {
+            width: 90%;
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            font-weight: 700;
+            color: var(--text-main);
+            text-decoration: none;
+            font-size: 1.2rem;
+        }
+
+        .nav-links a {
+            margin-left: 1.5rem;
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+
+        /* Main Layout */
+        .container {
+            width: 90%;
+            max-width: 800px;
+            margin: 2rem auto;
+        }
+
+        .page-title {
+            font-size: 2.25rem;
+            font-weight: 800;
+            margin-bottom: 2rem;
+            text-align: center;
+            position: relative;
+        }
+        
+        .page-title::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 4px;
+            background: var(--accent-gradient);
+            margin: 0.5rem auto 0;
+            border-radius: 2px;
+        }
+
+        /* Hobby Card Style */
+        .hobby-card {
+            background: var(--surface-color);
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            transition: transform 0.3s ease;
+            overflow: hidden;
+        }
+
+        .hobby-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        .hobby-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid #f3f4f6;
+            padding-bottom: 1rem;
+        }
+
+        .hobby-icon {
+            font-size: 2rem;
+            margin-right: 1rem;
+            background: #eff6ff;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            color: var(--primary-color);
+        }
+
+        .hobby-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .hobby-content p {
+            margin-bottom: 1rem;
+            color: var(--text-secondary);
+            text-align: justify;
+        }
+
+        /* Image Styling */
+        .hobby-gallery {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .hobby-img {
+            width: 100%;
+            max-width: 300px;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            object-fit: cover;
+            background-color: #e5e7eb; /* Placeholder bg */
+        }
+
+        /* Back Button */
+        .back-btn {
+            display: inline-block;
+            margin-bottom: 2rem;
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+        .back-btn:hover { text-decoration: underline; }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .page-title { font-size: 1.75rem; }
+            .hobby-card { padding: 1.5rem; }
+            .nav-container { flex-direction: column; gap: 0.5rem; }
+            .nav-links a { margin: 0 0.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Simple Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">Home</a>
+            <div class="nav-links">
+                <a href="hobbies.html" style="color: var(--primary-color);">My Hobbies</a>
+                <a href="facts.html">Fun Facts</a>
+                <a href="projects.html">My Projects</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        
+        <a href="index.html" class="back-btn">&larr; Back to Home</a>
+
+        <h1 class="page-title">My Hobbies</h1>
+
+        <!-- Hobby 1: Violin -->
+        <article class="hobby-card">
+            <div class="hobby-header">
+                <div class="hobby-icon">🎻</div>
+                <div class="hobby-title">Playing the Violin</div>
+            </div>
+            <div class="hobby-content">
+                <p>
+                    I started playing the violin when I was six, at first just because my mom suggested it, but I later found it interesting. I stuck with it, and it became a hobby. I also played the violin in my school orchestra. I even got into middle school because of my violin skills and became one of the founding members of the school's string orchestra. 
+                </p>
+                <p>
+                    An interesting experience I had was participating in a charity organization's anniversary two years ago, where I played the violin for children with rare diseases and their parents. I realized that I did not have enough time to practice a new piece. So, I came up with the idea of not letting the audience focus on my imperfect performance, but rather on my actions.
+                </p>
+                <p>
+                    I put a paper bag on my head and had someone hold the score for me (a "biological music stand"). I made random mistakes in the piece and blamed my "music stand" for "not turning the pages correctly." It worked; everyone laughed. It seems like it was my happiest performance ever.
+                </p>
+                <div class="hobby-gallery">
+                    <img src="violin.jpg" alt="Violin Performance" class="hobby-img">
+                </div>
+            </div>
+        </article>
+
+        <!-- Hobby 2: Video Games -->
+        <article class="hobby-card">
+            <div class="hobby-header">
+                <div class="hobby-icon">🎮</div>
+                <div class="hobby-title">Playing Video Games</div>
+            </div>
+            <div class="hobby-content">
+                <p>
+                    I believe most boys will say playing games is one of their hobbies. I'm no exception.
+                </p>
+                <p>
+                    I started playing first-person shooter (FPS) games at age four and have tried most of the popular ones, including Call of Duty, Battlefield, and Medal of Honor. Though modern games apply more advanced technologies, I find that older games from the 2010s are somehow more interesting. I still play games like Call of Duty 6: Modern Warfare 2 and Battlefield 3 today.
+                </p>
+                <p>
+                    I recently started trying out horror games. Dying Light (2015) appealed to me quite a bit. I just finished the campaign and felt great. I can't wait to try other works in the series. The Dead Space series is also on my "waitlist".
+                </p>
+                <div class="hobby-gallery">
+                    <img src="Battlefield3.jpg" alt="Gaming Setup or Gameplay" class="hobby-img">
+                </div>
+            </div>
+        </article>
+
+        <!-- Hobby 3: Anime -->
+        <article class="hobby-card">
+            <div class="hobby-header">
+                <div class="hobby-icon">✨</div>
+                <div class="hobby-title">Watching Anime</div>
+            </div>
+            <div class="hobby-content">
+                <p>
+                    Relaxation time shouldn't be filled with playing war and zombie games. Sometimes, I think it's better to watch something beautiful. For this reason, I also enjoy watching anime, especially those centered on humorous stories, daily life, and youth.
+                </p>
+                <p>
+                    <strong>My favorites:</strong> Zombie Land Saga, Girls Band Cry
+                </p>
+                <div class="hobby-gallery">
+                    <img src="GBC.png" alt="Zombie Land Saga" class="hobby-img">
+                    <img src="zombielandsaga.png" alt="Girls Band Cry" class="hobby-img">
+                </div>
+            </div>
+        </article>
+
+    </div>
+
+</body>
+</html>
+

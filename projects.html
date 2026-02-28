@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Projects</title>
+    
+    <style>
+        /* =========================================
+           CSS STYLES (Consistent with Homepage & Hobbies)
+           ========================================= */
+        :root {
+            --bg-color: #f9fafb;
+            --surface-color: #ffffff;
+            --primary-color: #2563eb;
+            --primary-hover: #1d4ed8;
+            --text-main: #111827;
+            --text-secondary: #4b5563;
+            --accent-gradient: linear-gradient(135deg, #2563eb 0%, #4f46e5 100%);
+            --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --border-radius: 12px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.7;
+            padding-bottom: 3rem;
+        }
+
+        /* Navigation Bar */
+        .navbar {
+            background-color: var(--surface-color);
+            padding: 1rem 0;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-container {
+            width: 90%;
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            font-weight: 700;
+            color: var(--text-main);
+            text-decoration: none;
+            font-size: 1.2rem;
+        }
+
+        .nav-links a {
+            margin-left: 1.5rem;
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: var(--primary-color);
+        }
+
+        /* Main Layout */
+        .container {
+            width: 90%;
+            max-width: 800px;
+            margin: 2rem auto;
+        }
+
+        .page-header {
+            margin-bottom: 2rem;
+        }
+
+        .page-title {
+            font-size: 2.25rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+        }
+
+        .page-subtitle {
+            color: var(--text-secondary);
+        }
+
+        /* Project Card */
+        .project-card {
+            background: var(--surface-color);
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-left: 4px solid var(--primary-color);
+            transition: transform 0.2s ease;
+        }
+
+        .project-card:hover {
+            transform: translateX(4px);
+        }
+
+        .project-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .project-title-group h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        .project-tags {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .tag {
+            background-color: #eff6ff;
+            color: var(--primary-color);
+            font-size: 0.75rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+
+        /* Expandable Content */
+        .project-content {
+            display: none; /* Hidden by default */
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #f3f4f6;
+            color: var(--text-secondary);
+        }
+
+        .project-content.active {
+            display: block;
+            animation: slideDown 0.3s ease-out;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .project-content p {
+            margin-bottom: 1rem;
+            text-align: justify;
+        }
+
+        .project-img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin-top: 1rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            object-fit: cover;
+            background-color: #e5e7eb;
+        }
+
+        .toggle-icon {
+            font-size: 1.5rem;
+            color: var(--text-secondary);
+            transition: transform 0.3s;
+        }
+
+        .project-card.active .toggle-icon {
+            transform: rotate(180deg);
+        }
+
+        /* Back Button */
+        .back-btn {
+            display: inline-block;
+            margin-bottom: 1.5rem;
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+        .back-btn:hover { text-decoration: underline; }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .page-title { font-size: 1.75rem; }
+            .nav-container { flex-direction: column; gap: 0.5rem; }
+            .nav-links a { margin: 0 0.5rem; }
+            .project-header { align-items: flex-start; }
+            .toggle-icon { margin-top: 0.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Simple Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">Home</a>
+            <div class="nav-links">
+                <a href="hobbies.html">My Hobbies</a>
+                <a href="facts.html">Fun Facts</a>
+                <a href="projects.html" class="active">My Projects</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <a href="index.html" class="back-btn">&larr; Back to Home</a>
+
+        <div class="page-header">
+            <h1 class="page-title">My Projects</h1>
+            <p class="page-subtitle">Exploring AI, Data, and Community Contributions.</p>
+        </div>
+
+        <!-- Project 0: CIS -->
+        <div class="project-card" onclick="toggleProject(this)">
+            <div class="project-header">
+                <div class="project-title-group">
+                    <h3>Exploring AI: CIS Research Project</h3>
+                    <div class="project-tags">
+                        <span class="tag">Research</span>
+                    </div>
+                </div>
+                <div class="toggle-icon">&#9660;</div>
+            </div>
+            <div class="project-content">
+                
+                <p>
+                    During my first year of high school, I participated in a CIS research project focusing on artificial intelligence and big data. It was one of my earliest explorations into the field of AI. At that time, I found that many AI theories were extremely challenging -- concepts that I had never encountered in my regular classes. Furthermore, everyone else in the group seemed to grasp these concepts effortlessly, while I alone felt completely lost and unable to keep up with the professor's lectures. So I decided to teach myself.
+                </p>
+                <p>
+                    I browsed Bilibili, CSDN, and GitHub for instructional videos, technical blogs, and open-source code. Since most tutorials were designed for college students, I often had to look up the underlying concepts they assumed I already understood. If I cannot understand one tutorial, I'd switch to another. After jumping around, it was often a very...obscure...video with only few views that saved me. Sometimes, I was the first person to watch a video. Many times, a small point that our professor casually mentioned in class would require me to spend hours researching from scratch just to grasp it. Whenever I decided to study, I had to prepare to work until 2 a.m. (OK, maybe not that early.)
+                </p>
+                <p>
+                    Then came the real challenge. After finishing the professor's course, my group chose to research improving recommendation systems. I had to dive into English paper reading and writing for the first time. My browser was constantly open to ChatGPT, Bing, and dozens of tabs with specialized terms. It was exhausting, but looking back on that experience now, I feel it was well worth it, as it greatly cultivated my self-learning, research, and writing skills.
+                </p>
+                <a href="Survey_and_Attempted_improvements_on_existing_recommendation_system.pdf" target="_blank">Our paper of this project was successfully pubished. The PDF copy is available here</a>
+                <img src="CIS.jpg" alt="CIS Project" class="project-img"><br>
+               
+            </div>
+        </div>
+
+        <!-- Project 1: School Club -->
+        <div class="project-card" onclick="toggleProject(this)">
+            <div class="project-header">
+                <div class="project-title-group">
+                    <h3>School Club: Intech Association</h3>
+                    <div class="project-tags">
+                        <span class="tag">Leadership</span>
+                        <span class="tag">Education</span>
+                    </div>
+                </div>
+                <div class="toggle-icon">&#9660;</div>
+            </div>
+            <div class="project-content">
+                <p>
+                    I am interested in artificial intelligence (AI), so I started an AI club called the "Intech Association" at my school. I taught the members some basic AI concepts, such as retrieval-augmented generation of LLMs, feed-forward neural networks, and convolutional neural networks, in a way that high school students could understand, of course, minimizing the math as much as possible because everyone's here to relax and have fun.
+                </p>
+                <p>
+                    I also led the development of several interesting club projects, such as emotion analysis, YOLO, which identifies everything as a dog, and an FNN-based block guessing game. By the way, the avatar on the front page is an anime character that my friend and I designed for our club.
+                </p>
+                <a href="https://intechassociation.pages.dev/" target="_blank">I made a website for our club, available here</a><br>
+                <img src="ITA.jpg" alt="Intech Association" class="project-img">
+            </div>
+        </div>
+
+        <!-- Project 2: Brain-rot GPT -->
+        <div class="project-card" onclick="toggleProject(this)">
+            <div class="project-header">
+                <div class="project-title-group">
+                    <h3>Brain-rot GPT</h3>
+                    <div class="project-tags">
+                        <span class="tag">Python</span>
+                        <span class="tag">PyTorch</span>
+                        <span class="tag">Transformer</span>
+                    </div>
+                </div>
+                <div class="toggle-icon">&#9660;</div>
+            </div>
+            <div class="project-content">
+                <p>
+                    Through the club, I hope to further my knowledge of AI. To learn more about attention mechanism, I built a decoder-only transformer with PyTorch from scratch for text generation. I learned about transformer principles during an AI-related research program, but I had never tried to implement them. Later, I realized that, given the rise of large language models, I need a better understanding of transformers, so I decided to create one.
+                </p>
+                <p>
+                    With the help of ChatGPT and online tutorials, I successfully built a transformer based on multi-head attention(MHA) and it is surprisingly functional. However, lacking training materials, high-quality GPUs, and datasets, it cannot generate logical texts. Therefore, I came up with the idea that it does not need to generate logical articles but rather humorous nonsense that conforms to modern "brain-rot culture." I collected many "brain rot" sentences online and used them as a training dataset for my transformer. Despite the relatively high loss and the "funny" training data, the transformer performs well on "brain-rot text" generation tasks. So I named it "Brain rot GPT".
+                </p>
+            </div>
+        </div>
+
+        <!-- Project 3: Brain-rot GPT Advanced -->
+        <div class="project-card" onclick="toggleProject(this)">
+            <div class="project-header">
+                <div class="project-title-group">
+                    <h3>Brain-rot GPT -- Advanced</h3>
+                    <div class="project-tags">
+                        <span class="tag">Optimization</span>
+                        <span class="tag">GQA</span>
+                    </div>
+                </div>
+                <div class="toggle-icon">&#9660;</div>
+            </div>
+            <div class="project-content">
+                <p>
+                    Not satisfied with barely implementing a decoder-only transformer, I started to consider the problem that currently deploying transformer-based generation AI on personal devices can be difficult, since incuring large computational overheads can be challenging to most of personal devices. Therefore, I tried to improve the efficiency of attention structure to make my model more device-friendly.
+                </p>
+                <p>
+                    Searching online, I found an improvement to the traditional multi-head attention (MHA) structure: grouped-query attention (GQA). GQA uses less graphics memory than MHA. Based on this, I applied an apparently radical optimization method that reduces the hidden dimension to lower computational costs. So far, although some research is similar, I have not found any improvements that are exactly the same as this one. I think it is reasonable to name this new structure "grouped-query latent attention (GQLA)." It is surprisingly effective. It became the basis of the second version of my Brain-Rot GPT. I successfully deployed it on a CPU, and it ran smoothly. 
+                </p>
+                <p>
+                    To evaluate this new attention structure, I conducted experiments to compare the models made from GQLA and the traditional GQA. Memory consumption, cosine similarity between attention patterns, and absolute value of difference of mean diagonal attention were considered. The results showed that, compared to GQA-based models, GQLA models are capable of using less time and memory while retaining most expressive capabilities. Please check out my paper below for more information.
+                </p>
+                
+                <a href="https://github.com/shabby223/a-simple-transformer-implementation" target="_blank">The codes of brain rot GPT are available here</a><br>
+                <a href="Grouped-Query Latent Attention -- A More Device-Friendly Attention Structure.pdf" target="_blank">The paper of this project is available here</a>
+                <img src="brainrotGPT.png" alt="GQA Implementation" class="project-img">
+            </div>
+        </div>
+
+        <!-- Project 4: Video Recognition Tool -->
+        <div class="project-card" onclick="toggleProject(this)">
+            <div class="project-header">
+                <div class="project-title-group">
+                    <h3>Funny Video Recognition Tool</h3>
+                    <div class="project-tags">
+                        <span class="tag">GLM-4V</span>
+                        <span class="tag">Multimodal</span>
+                    </div>
+                </div>
+                <div class="toggle-icon">&#9660;</div>
+            </div>
+            <div class="project-content">
+                <p>
+                    As a by-product of the brain rot GPT, I open-sourced the video recognition tool that I wrote to extract video scripts and add them to my training dataset. This tool is based on the multimodal large language model GLM4.6V-Flash. Unlike most existing video recognizers, which rely on basic speech recognition of video audio, my LLM-based tool can analyze both subtitles and audio, providing far more accurate results. Another advantage is that subtitle analysis enables the tool to recognize new internet slang that traditional tools can hardly grasp.
+                </p>
+                <a href="https://github.com/shabby223/LLM_based_video_script_recognition" target="_blank">The codes of the tool are available here</a>
+            </div>
+        </div>
+
+        <!-- Project 5: YLID School Counselor AI -->
+        <div class="project-card" onclick="toggleProject(this)">
+            <div class="project-header">
+                <div class="project-title-group">
+                    <h3>YLID School Counselor AI</h3>
+                    <div class="project-tags">
+                        <span class="tag">RAG</span>
+                        <span class="tag">LLM</span>
+                    </div>
+                </div>
+                <div class="toggle-icon">&#9660;</div>
+            </div>
+            <div class="project-content">
+                <p>
+                    Inspired by the AI college admissions counselor, I developed an AI study guide for students and teachers in our school(Yali High School International Department, YLID). I applied retrieval augmented generation (RAG) to a large language model (LLM). This technology enables the model to respond to user queries using information from the knowledge base. I built the knowledge base using materials including guides on college selection, test and competition preparation instructions, and school club information, all of which were provided by our school.
+                </p>
+                <p>
+                    Therefore, this AI assistant can reference our school's information and provide responses as if it were an employee of the school. I also integrated the college research function. Users can input the official website of a university, and the AI tool will search the website and summarize the information. Unfortunately, this project contains confidential information, so I cannot show it here.
+                </p>
+                <img src="AI.png" alt="School Counselor AI Interface" class="project-img">
+            </div>
+        </div>
+
+        <!-- Project 6: Teaching Assistant -->
+        <div class="project-card" onclick="toggleProject(this)">
+            <div class="project-header">
+                <div class="project-title-group">
+                    <h3>AP Computer Science A Teaching Assistant at YLID</h3>
+                    <div class="project-tags">
+                        <span class="tag">Education</span>
+                        <span class="tag">AP CS</span>
+                    </div>
+                </div>
+                <div class="toggle-icon">&#9660;</div>
+            </div>
+            <div class="project-content">
+                <p>
+                    In addition, to improve my understanding and skills in computer science, I became a teaching assistant for our school's AP Computer Science A course, solving students' problems and providing homework explanations and reviews.
+                </p>
+            </div>
+        </div>
+
+        <!-- Project 7: CVD -->
+        <div class="project-card" onclick="toggleProject(this)">
+            <div class="project-header">
+                <div class="project-title-group">
+                    <h3>Research: Correlation Between Diabetes and Cardiovascular Diseases</h3>
+                    <div class="project-tags">
+                        <span class="tag">Research</span>
+                        <span class="tag">CVD</span>
+                    </div>
+                </div>
+                <div class="toggle-icon">&#9660;</div>
+            </div>
+            <div class="project-content">
+                <p>
+                    Studying biostatistics and epidemiology in the Harvard Summer Program opened my eyes to the application of statistics in health. After the program, I began conducting real-world research. I joined a study investigating the correlation between diabetes and the risk of developing cardiovascular diseases (CVD). I used medical data from the CHARLS dataset and defined CVD as the outcome variable. Unlike the ideal situation in Harvard courses, these data required more complex methods to clean and normalize. I applied Cox regression, first univariable and then multivariable. After calculating the C-index for validation, I observed an increase in the C-index, indicating an increase in the model's discriminative ability. Through this experience, I learned the importance of considering multiple covariates to better adapt to real-world situations.
+                </p>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // Simple JavaScript to toggle project details
+        function toggleProject(card) {
+            // Toggle the active class on the clicked card
+            card.classList.toggle('active');
+            
+            // Find the content div inside the clicked card
+            const content = card.querySelector('.project-content');
+            
+            // Toggle display logic
+            if (content.classList.contains('active')) {
+                content.classList.remove('active');
+                // Use setTimeout to allow display:none to happen after animation if needed, 
+                // but for simplicity we just toggle the class which handles display via CSS
+                setTimeout(() => {
+                   if(!card.classList.contains('active')) content.style.display = 'none';
+                }, 0); 
+            } else {
+                content.style.display = 'block';
+                // Small delay to allow the browser to register display:block before adding opacity class
+                setTimeout(() => {
+                    content.classList.add('active');
+                }, 10);
+            }
+        }
+    </script>
+</body>
+</html>

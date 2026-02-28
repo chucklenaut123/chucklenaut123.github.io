@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fun Facts</title>
+    
+    <style>
+        /* =========================================
+           CSS STYLES
+           ========================================= */
+        :root {
+            --bg-color: #f9fafb;
+            --surface-color: #ffffff;
+            --text-main: #111827;
+            --text-secondary: #4b5563;
+            --modal-bg: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            min-height: 100vh;
+        }
+
+        /* Navigation Bar */
+        .navbar {
+            background-color: var(--surface-color);
+            padding: 1rem 0;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-container {
+            width: 90%;
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            font-weight: 700;
+            color: var(--text-main);
+            text-decoration: none;
+            font-size: 1.2rem;
+        }
+
+        .nav-links a {
+            margin-left: 1.5rem;
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: var(--primary-color);
+        }
+
+        /* Empty placeholder area */
+        .empty-state {
+            height: 80vh; /* Takes up most of the screen height */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* The Modal Overlay */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--modal-bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease;
+        }
+
+        /* Active class to show modal */
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* The Content Card */
+        .modal-content {
+            background: var(--surface-color);
+            width: 90%;
+            max-width: 600px;
+            padding: 3rem;
+            border-radius: 12px;
+            text-align: left; /* Left align for better readability of paragraphs */
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        .modal-text {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        .modal-text strong {
+            color: var(--text-main);
+            font-weight: 700;
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .nav-container { flex-direction: column; gap: 0.5rem; }
+            .nav-links a { margin: 0 0.5rem; }
+            .modal-content { padding: 2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">Home</a>
+            <div class="nav-links">
+                <a href="hobbies.html">My Hobbies</a>
+                <a href="facts.html" class="active">Fun Facts</a>
+                <a href="projects.html">My Projects</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Empty State (Background) -->
+    <div class="empty-state">
+        <!-- Nothing here, modal covers everything -->
+    </div>
+
+    <!-- The Modal (Auto-popup) -->
+    <div class="modal-overlay" id="factModal">
+        <div class="modal-content">
+            <div class="modal-text">
+                Some of my friends would make fun of me by dubbing me a “bot,” because they thought I was too rational. I am actually <strong>emotionally rich</strong>. One problem is that I sometimes feel anxious and exhausted because I care too much about others. They call me a "bot" because my emotional expression is not very obvious.
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Auto-trigger the modal on page load
+        window.addEventListener('load', () => {
+            const modal = document.getElementById('factModal');
+            modal.classList.add('active');
+        });
+
+        // Close modal when clicking anywhere
+        document.addEventListener('click', (e) => {
+            const modal = document.getElementById('factModal');
+            // Only close if the modal is currently active
+            if (modal.classList.contains('active')) {
+                modal.classList.remove('active');
+            }
+        });
+
+        // Close on Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                const modal = document.getElementById('factModal');
+                modal.classList.remove('active');
+            }
+        });
+    </script>
+
+</body>
+</html>

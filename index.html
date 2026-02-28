@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Personal website of a student interested in statistics and deep learning">
+    <title>Personal Website</title>
+    
+    <style>
+        /* =========================================
+           CSS STARTS HERE (You can move this to style.css)
+           ========================================= */
+           
+        /* CSS Variables for easy theming */
+        :root {
+            --bg-color: #f9fafb;
+            --surface-color: #ffffff;
+            --primary-color: #2563eb; /* Royal Blue */
+            --text-main: #111827;
+            --text-secondary: #6b7280;
+            --accent-gradient: linear-gradient(135deg, #2563eb 0%, #4f46e5 100%);
+            --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --card-hover-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --transition-speed: 0.3s;
+            /* New variable for news banner */
+            --news-bg: #e0e7ff; 
+            --news-text: #3730a3;
+        }
+
+        /* Reset & Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Layout Container */
+        .container {
+            width: 90%;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem 0;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        /* Header / Intro Section */
+        header {
+            text-align: center;
+            margin-bottom: 4rem;
+            padding-top: 2rem;
+            animation: fadeInDown 0.8s ease-out;
+        }
+
+        .avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid var(--surface-color);
+            box-shadow: var(--card-shadow);
+            margin-bottom: 1.5rem;
+            background-color: #e5e7eb; /* Fallback color */
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--text-main);
+            margin-bottom: 1.5rem; /* Increased margin to make room for news */
+            letter-spacing: -0.025em;
+        }
+
+        /* News Banner Styles */
+        .news-banner {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--news-bg);
+            color: var(--news-text);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem; /* Space between news and subtitle */
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            animation: fadeIn 1s ease-out 0.5s backwards; /* Delayed animation */
+        }
+
+        .news-badge {
+            background: var(--primary-color);
+            color: white;
+            font-size: 0.7rem;
+            padding: 2px 8px;
+            border-radius: 4px;
+            margin-right: 0.5rem;
+            text-transform: uppercase;
+            font-weight: 800;
+            letter-spacing: 0.05em;
+        }
+
+        .news-banner a {
+            color: var(--primary-color);
+            text-decoration: none;
+            border-bottom: 1px dashed var(--primary-color);
+            transition: border-bottom-style 0.2s;
+        }
+
+        .news-banner a:hover {
+            border-bottom-style: solid;
+        }
+
+        .subtitle {
+            font-size: 1.125rem;
+            color: var(--text-secondary);
+            font-weight: 400;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Navigation Links (Cards) */
+        nav {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.5rem;
+            animation: fadeInUp 0.8s ease-out 0.2s backwards;
+        }
+
+        .nav-card {
+            display: block;
+            background: var(--surface-color);
+            padding: 2rem 1.5rem;
+            border-radius: 16px;
+            text-decoration: none;
+            color: var(--text-main);
+            text-align: center;
+            box-shadow: var(--card-shadow);
+            transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+            border: 1px solid rgba(0,0,0,0.05);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Hover Effects */
+        .nav-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--card-hover-shadow);
+            color: var(--primary-color);
+        }
+
+        .nav-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--accent-gradient);
+            opacity: 0;
+            transition: opacity var(--transition-speed);
+        }
+
+        .nav-card:hover::before {
+            opacity: 1;
+        }
+
+        .nav-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .nav-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        /* Placeholder Text within cards */
+        .nav-desc {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            margin-top: auto;
+            border-top: 1px solid #e5e7eb;
+        }
+
+        footer a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        /* Animations */
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 600px) {
+            h1 { font-size: 2rem; }
+            .container { width: 95%; }
+            nav { grid-template-columns: 1fr; }
+            
+            /* Stack news text on very small screens if needed, 
+               but flex-wrap handles it well usually */
+            .news-banner {
+                flex-direction: column;
+                padding: 1rem;
+                border-radius: 12px;
+                gap: 0.5rem;
+            }
+        }
+
+        /* =========================================
+           CSS ENDS HERE
+           ========================================= */
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Main Header Area -->
+        <header>
+            <!-- Random Avatar Image (Placeholder) -->
+            <img src="avatar.png" alt="Profile Avatar" class="avatar">
+            
+            <!-- Main Heading -->
+            <h1>Hi, I'm Yingkai Tang</h1>
+
+            <!-- Subtitle -->
+            <p class="subtitle">A student interested in statistics and deep learning</p>
+            <p class="subtitle" style="margin-top: 0.5rem; font-size: 0.9em;">Uh, that's my avatar</p>
+        </header>
+        
+            <!-- ================= NEWS SECTION START ================= -->
+            <div class="news-banner">
+                <span class="news-badge">NEWS</span>
+                <span>I just completed the paper about my project "Brain-rot GPT -- advanced", available at 
+                    <a href="Grouped-Query Latent Attention -- A More Device-Friendly Attention Structure.pdf" target="_blank">[Grouped-Query Latent Attention -- A More Device-Friendly Attention Structure.pdf]</a>
+                </span>
+            </div>
+            <!-- ================= NEWS SECTION END ================= -->
+
+        <!-- Navigation Area -->
+        <main>
+            <nav>
+                <!-- Card 1: My Hobbies -->
+                <a href="hobbies.html" class="nav-card">
+                    <span class="nav-icon" aria-hidden="true">🎨</span>
+                    <div class="nav-title">My Hobbies</div>
+                    <div class="nav-desc">What I do in my free time</div>
+                </a>
+
+                <!-- Card 2: Fun Facts -->
+                <a href="facts.html" class="nav-card">
+                    <span class="nav-icon" aria-hidden="true">💡</span>
+                    <div class="nav-title">Fun Facts</div>
+                    <div class="nav-desc">Interesting things about me</div>
+                </a>
+
+                <!-- Card 3: My Projects -->
+                <a href="projects.html" class="nav-card">
+                    <span class="nav-icon" aria-hidden="true">🚀</span>
+                    <div class="nav-title">My Projects</div>
+                    <div class="nav-desc">Research and code samples</div>
+                </a>
+            </nav>
+        </main>
+    </div>
+
+    <!-- Simple Footer -->
+    <footer>
+        <p>&copy; <script>document.write(new Date().getFullYear())</script> Personal Website. Built with HTML & CSS.</p>
+    </footer>
+
+</body>
+</html>
